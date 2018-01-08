@@ -1,0 +1,11 @@
+{
+    "BankingInquiry": {
+        "description": "",
+        "type": "object",
+        "properties": {
+          "TransResult":  {
+            "$ref": ""
+          }
+        }
+      }
+}

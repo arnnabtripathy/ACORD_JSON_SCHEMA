@@ -1,0 +1,74 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+    "title":  "ACORD Life & Annuity REST API",
+    "version": "0.0.1",
+    "description":  "Contains many API endpoints for ACORD L&A rest APIs.Bank Information Inquiry tc=230"
+    },
+    "paths": {
+        "/bankinginquiry/routingno/{routing_no}": {
+            "get":  {
+              "summary":  "Bank Information Inquiry tc=230 - Transaction sub type 23000 Bank Routing Inquiry is used to perform a bank routing validation",
+              "description":  "Bank Information Inquiry is used to perform validation of bank information.The response transaction would include a message that the routing numbers are valid or invalid.",
+              "parameters": [
+                {
+                  "in": "path",
+                  "name": "routing_no",
+                  "schema": {
+                    "type": "string"
+                  },
+                  "required": true
+                }
+              ],
+              "responses":  {
+                "200":  {
+                  "description":  "",
+                  "content":  {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/BankingInquiry"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "/bankinginquiry/accountno": {
+            "get":  {
+                "summary":  "Bank Information Inquiry tc=230 - Transaction sub type 23001 is used to validate a client’s bank account information for an electronic funds transfer using a combination of the bank routing number and the specific bank account number.",
+                "description":  "Bank Information Inquiry is used to perform validation of bank information.The response transaction would include a message that the combination of routing number and account number is valid or invalid.",
+                "parameters": [
+                {
+                    "in": "header",
+                    "name": "routing_no",
+                    "schema": {
+                    "type": "string"
+                    },
+                    "required": true
+                },
+                {
+                    "in": "header",
+                    "name": "account_no",
+                    "schema": {
+                    "type": "string"
+                    },
+                    "required": true
+                }
+                ],
+                "responses":  {
+                "200":  {
+                    "description":  "",
+                    "content":  {
+                    "application/json": {
+                        "schema": {
+                        "$ref": "#/components/schemas/BankingInquiry"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+        }    
+    }
+}

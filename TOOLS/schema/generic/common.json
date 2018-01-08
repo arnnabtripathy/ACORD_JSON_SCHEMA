@@ -1,0 +1,27 @@
+{
+    "TransResult": {
+        "description": "This aggregate provides transaction result details",
+        "type": "object",
+        "properties": {
+          "ResultCode":  {
+            "type": "number",
+            "$ref": "#/components/schemas/RESULT_CODES"
+          },
+          "ConfirmationID":  {
+            "type": "string"
+          },
+          "RecordsFound":  {
+            "type": "string"
+          },
+          "ResultInfo":  {
+            "type": "array",
+            "items":  {
+              "$ref": "#/components/schemas/ResultInfo"
+            }
+          },
+          "OLifEExtension":  {
+            "$ref": "#/components/schemas/OLifEExtension"
+          }
+        }
+    }
+}
