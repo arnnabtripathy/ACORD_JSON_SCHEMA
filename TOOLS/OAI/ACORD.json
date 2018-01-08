@@ -1,0 +1,657 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title":  "ACORD Life & Annuity REST API",
+      "version": "0.0.1",
+      "description":  "Contains many API endpoints for ACORD L&A rest APIs.Holding Inquiry tc = 203,Bank Information Inquiry tc=230 Claim Status Inquiry tc=820"
+    },
+    "paths": {
+      "/holdings/{id}":  {
+        "get":  {
+          "summary":  "Represents a holding for tc = 203",
+          "description":  "Holding Inquiry tc = 203(Used to receive detailed holding information) by id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses":  {
+            "200":  {
+              "description":  "",
+              "content":  {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Holding"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/bankinginquiry/routingno/{routing_no}": {
+        "get":  {
+          "summary":  "Bank Information Inquiry tc=230 - Transaction sub type 23000 Bank Routing Inquiry is used to perform a bank routing validation",
+          "description":  "Bank Information Inquiry is used to perform validation of bank information.The response transaction would include a message that the routing numbers are valid or invalid.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "routing_no",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses":  {
+            "200":  {
+              "description":  "",
+              "content":  {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BankingInquiry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/bankinginquiry/accountno": {
+        "get":  {
+          "summary":  "Bank Information Inquiry tc=230 - Transaction sub type 23001 is used to validate a client’s bank account information for an electronic funds transfer using a combination of the bank routing number and the specific bank account number.",
+          "description":  "Bank Information Inquiry is used to perform validation of bank information.The response transaction would include a message that the combination of routing number and account number is valid or invalid.",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "routing_no",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "account_no",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses":  {
+            "200":  {
+              "description":  "",
+              "content":  {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BankingInquiry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/claims/{party_id}":  {
+        "get":  {
+          "summary":  "Claim Status Inquiry tc=820",
+          "description":  "It is intended to  communicate the status of a claim from the carrier to the agent(s) on a policy. It is the party_id for which claim status is requested.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses":  {
+            "200":  {
+              "description":  "",
+              "content":  {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items":  {
+                      "$ref": "#/components/schemas/Claim"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/claims/{ho_claim_reference_id}":  {
+        "get":  {
+          "summary":  "Claim Status Inquiry tc=820",
+          "description":  "It is intended to  communicate the status of a claim from the carrier to the agent(s) on a policy.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "ho_claim_reference_id",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses":  {
+            "200":  {
+              "description":  "",
+              "content":  {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Claim"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas":  {
+        "Holding"  :  {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "id":  {
+              "type": "string"
+            },
+            "HoldingName":  {
+              "type": "string"
+            },
+            "CarrierAdminSystem":  {
+              "type": "string"
+            },
+            "HoldingTypeCode":  {
+              "$ref": "#/components/schemas/OLI_LU_HOLDTYPE"
+            },
+            "HoldingStatus":  {
+              "$ref": "#/components/schemas/OLI_LU_HOLDSTAT"
+            },
+            "Policy":  {
+              "$ref": "#/components/schemas/Policy"
+            },
+            "Investment":  {
+              "$ref": "#/components/schemas/Investment"
+            },
+            "Attachment":  {
+              "$ref": "#/components/schemas/Attachment"
+            },
+            "OLifEExtension":  {
+              "$ref": "#/components/schemas/OLifEExtension"
+            },
+            "TransResult":  {
+              "$ref": "#/components/schemas/TransResult"
+            },
+            "DataRep":  {
+                "$ref": "#/components/schemas/Partial"
+            },
+            "HoldingKey":  {
+            "$ref": "#/components/schemas/PERSIST_SESSION"
+            },
+            "HoldingSysKey":  {
+            "$ref": "#/components/schemas/SYSKEY"
+            },
+            "AccountDesignation":  {
+            "$ref": "#/components/schemas/OLI_LU_ACCTDES"
+            },
+            "Purpose":  {
+            "$ref": "#/components/schemas/OLI_LU_HOLDPURPOSE"
+            },
+            "CurrencyTypeCode":  {
+            "$ref": "#/components/schemas/OLI_LU_CURRENCYTYPE"
+            },
+            
+            "CarrierAdminSubSystem":  {
+            "$ref": "#/components/schemas/OLI_LU_SUBSYSTEM"
+            },
+            "CostBasis":  {
+            "$ref": "#/components/schemas/Currency"
+            },
+            
+            "ComponentOfPackage":  {
+            "type": "boolean"
+            },
+            "AssetValue":  {
+            "$ref": "#/components/schemas/Currency"
+            },
+            "LiabilityValue":  {
+            "$ref": "#/components/schemas/Currency"
+            },
+            "AsOfDate":  {
+            "type": "string"
+            },
+            "LastFinActivityDate":  {
+            "type": "string"
+            },
+            "LastFinActivityType":  {
+            "$ref": "#/components/schemas/OLI_LU_FINACTTYPE"
+            },
+            "LastNonFinActivityDate":  {
+            "type": "string"
+            },
+            "LastAnniversaryDate":  {
+            "type": "string"
+            },
+            "NextAnniversaryDate":  {
+            "type": "string"
+            },
+            "HoldingForm":  {
+            "$ref": "#/components/schemas/OLI_LU_HOLDINGFORM"
+            },
+            "AssignmentCode":  {
+            "$ref": "#/components/schemas/OLI_LU_ASSIGNED"
+            },
+            "QualifiedCode":  {
+            "$ref": "#/components/schemas/OLI_LU_QUALIFIED"
+            },
+            "RestrictionCode":  {
+            "$ref": "#/components/schemas/OLI_LU_RESTRICT"
+            },
+            "CommissionHoldInd":  {
+            "$ref": "#/components/schemas/OLI_LU_BOOLEAN"
+            },
+            "MarketType":  {
+            "$ref": "#/components/schemas/OLI_LU_MARKETTYPE"
+            },
+            "ShareClass":  {
+            "$ref": "#/components/schemas/OLI_LU_SHARECLASS"
+            },
+            "CompensationPayment":  {
+            "$ref":"#/components/schemas/CompensationPayment"
+            },
+            "Intent":  {
+            "$ref": "#/components/schemas/Intent"
+            },
+            "Arrangement":  {
+            "$ref": "#/components/schemas/Arrangement"
+            },
+        "Loan":  {
+          "$ref": "#/components/schemas/Loan"
+        },
+        "SystemMessage":  {
+          "$ref": "#/components/schemas/SystemMessage"
+        },
+        "Banking":  {
+          "$ref": "#/components/schemas/Banking"
+        },
+        "Authorization":  {
+          "$ref": "#/components/schemas/Authorization"
+        },
+        "HoldingXLat":  {
+          "$ref": "#/components/schemas/HoldingLanguageTranslations"
+        },
+        "Fee":  {
+          "$ref": "#/components/schemas/Fee"
+        },
+        "RestrictionInfo":  {
+          "$ref": "#/components/schemas/RestrictionInfo"
+        },
+        "PolicyValues":  {
+          "$ref": "#/components/schemas/PolicyValues"
+        },
+        "SurrenderChargeSchedule":  {
+          "$ref": "#/components/schemas/SurrenderChargeSchedule"
+        },
+        "Integrator":  {
+          "$ref": "#/components/schemas/Integrator"
+        },
+        "KeyedValue":  {
+          "$ref": "#/components/schemas/KeyedValue"
+        }
+            
+            
+          }
+        },
+        "Fee": {
+          
+        },
+        "Loan": {
+          
+        },
+        "Intent": {
+          
+        },
+        "CompensationPayment": {
+          
+        },
+        "OLI_LU_RESTRICT": {
+          
+        },
+        "OLI_LU_BOOLEAN": {
+          
+        },
+        "OLI_LU_MARKETTYPE": {
+          
+        },
+        "OLI_LU_SHARECLASS": {
+          
+        },
+        "RestrictionInfo": {
+          
+        },
+        "Partial": {
+          
+        },
+        "HoldingLanguageTranslations": {
+          
+        },
+        "Authorization": {
+          
+        },
+        "Banking": {
+          
+        },
+        "SystemMessage": {
+          
+        },
+        "Arrangement": {
+          
+        },
+        "PERSIST_SESSION":  {
+          
+        },
+        "SYSKEY": {
+          
+        },
+        "OLI_LU_ACCTDES": {
+          
+        },
+        "OLI_LU_HOLDPURPOSE":  {
+          
+        },
+        "CurrencyTypeCode": {
+          
+        },
+        "OLI_LU_CURRENCYTYPE": {
+          
+        },
+        "OLI_LU_SUBSYSTEM":  {
+          
+        },
+        "Currency":  {
+          
+        },
+        "OLI_LU_HOLDINGFORM":  {
+          
+        },
+        "OLI_LU_ASSIGNED":  {
+          
+        },
+        "OLI_LU_FINACTTYPE":  {
+          
+        },
+        "OLI_LU_QUALIFIED":  {
+          
+        },
+        "KeyedValue":  {
+          
+        },
+        "Integrator":  {
+          
+        },
+        "SurrenderChargeSchedule":  {
+          
+        },
+        "PolicyValues":  {
+          
+        },
+        
+        "BankingInquiry": {
+          "description": "",
+          "type": "object",
+          "properties": {
+            "TransResult":  {
+              "$ref": "#/components/schemas/TransResult"
+            }
+          }
+        },
+        "Policy": {
+          
+        },
+        "IDREF": {
+          
+        },
+        "Investment": {
+          
+        },
+        "Attachment": {
+          
+        },
+        "OLifEExtension": {
+          
+        },
+        "TransResult": {
+          "description": "This aggregate provides transaction result details",
+          "type": "object",
+          "properties": {
+            "ResultCode":  {
+              "type": "number",
+              "$ref": "#/components/schemas/RESULT_CODES"
+            },
+            "ConfirmationID":  {
+              "type": "string"
+            },
+            "RecordsFound":  {
+              "type": "string"
+            },
+            "ResultInfo":  {
+              "type": "array",
+              "items":  {
+                "$ref": "#/components/schemas/ResultInfo"
+              }
+            },
+            "OLifEExtension":  {
+              "$ref": "#/components/schemas/OLifEExtension"
+            }
+          }
+        },
+        "Claim":  {
+          "description":  "",
+          "type": "object",
+          "properties": {
+             "id":  {
+              "type": "string"
+            },
+            "CaseIDREF":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "PartyID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ActualObjectID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ParticipantObjectID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ProviderPartyID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "DataRep":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimKey":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimSysKey":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "HOClaimReferenceID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ActualObjectType":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimDateOfLoss":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimStatus":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimStatusReason":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimStatusReasonDesc":  {
+              "type": "string"
+            },
+            "StatusChangeDate":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimPaymentDate":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "DeathCertificateCertifiedDate":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ForeignLossInd":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimType":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "MannerofLoss":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimFinalizedDate":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "TotalCost":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "CaseID":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "AmountPaidToDate":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimFinalCost":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimFinalDuration":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimFinalDecision":  {
+              "type": "string"
+            },
+            "DurationUnitMeasure":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimHandlingType":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimRiskCategoryType":  {
+              "$ref": "#/components/schemas/IDREF"
+            },
+            "ClaimEstimate":  {
+              "type": "object"
+            },
+            "Participant":  {
+              "type": "object"
+            },
+            "RequirementInfo":  {
+              "type": "object"
+            },
+            "ClaimMedConditionInfo":  {
+              "type": "object"
+            },
+            "ClaimReview":  {
+              "type": "object"
+            },
+            "RestrictionInfo":  {
+              "type": "object"
+            },
+            "MedicalTransport":  {
+              "type": "object"
+            },
+            "Attachment":  {
+              "type": "object"
+            },
+            "KeyedValue":  {
+              "type": "object"
+            },
+            "OLifEExtension":  {
+              "$ref": "#/components/schemas/OLifEExtension"
+            }
+          }
+        },
+        "ResultInfo": {
+          "description": "Aggregate that contains additional information,  including error codes, warnings, and descriptions relating to a     transaction result.",
+          "type": "object",
+          "properties": {
+            "ID":  {
+              "type": "string"
+            },
+            "ProblemRef":  {
+              "type": "string"
+            },
+            "ResultInfoCode":  {
+              "type": "number",
+              "$ref": "#/components/schemas/RESULT_INFO_CODES"
+            },
+            "ResultInfoDesc":  {
+              "type": "string"
+            },
+            "ResultInfoSysMessageCode":  {
+              "type": "string"
+            },
+            "ResultInfoSeverity":  {
+              "$ref": "#/components/schemas/OLI_LU_MSGSEVERITY"
+            },
+            "ResultInfoSource":  {
+              "type": "string"
+            },
+            "OLifEExtension":  {
+              "$ref": "#/components/schemas/OLifEExtension"
+            }
+          }
+        },
+        "RESULT_CODES": {
+          "description":  "Result Code<br>1 - RESULT_SUCCESS - Success<br>2 - RESULT_SUCCESSINFO - Success with information<br>       3 - RESULT_RECDPEND - Received Pending (transaction in queue)<br>4 - RESULT_RECDPENDINFO - Received Pending with information<br>5 - RESULT_FAILURE - Failure<br>",
+          "type": "number",
+          "enum": [
+            1,2,3,4,5
+          ]
+        },
+        "OLI_LU_HOLDSTAT":  {
+          "description":  "Holding Status<br>1 - OLI_HOLDSTAT_ACTIVE - Active the Holding is in force<br>       2 - OLI_HOLDSTAT_INACTIVE - Inactive Terminated, Lapsed or expired<br>3 - OLI_HOLDSTAT_PROPOSED - Proposed - Pending - Not yet inforce<br>           4 - OLI_HOLDSTAT_DORMANT - Dormant - Suspended<br>           2147483647 - OLI_OTHER - Other<br>           0 - OLI_UNKNOWN - Unknown<br>        ",
+          "type": "number",
+          "enum": [
+            1,2,3,4,2147483647,0
+          ]
+        },
+        "OLI_LU_HOLDTYPE":  {
+          "description":  "Type of Holding..Asset, Liability, Policy, etc.<br>    1 - OLI_HOLDTYPE_ASSETLIAB - Asset/Liability<br>             2 - OLI_HOLDTYPE_POLICY<br>             3 - OLI_HOLDTYPE_INVESTMENT - Investment<br>          ",
+          "type": "number",
+          "enum": [
+            1,2,3
+          ]
+        },
+        "RESULT_INFO_CODES":  {
+          "description":  "             Sublist is used by this lookup in order to group codes into related categories based on common process or use case.             3045  - Valid Routing Number             3046  - Invalid Routing Number             3049  - Valid Bank Account Number             3050  - Invalid Bank Account Number             3051  - Invalid Routing Number/Account Number Combination             3052  - Valid Routing Number/Account Number Combination          ",
+          "type": "number",
+          "enum": [
+            3045,3046,3049,3050,3051,3052
+          ]
+        },
+        "OLI_LU_MSGSEVERITY":  {
+          "description":  "Message Severity.             1 - OLI_MSGSEVERITY_INFO - This message is informational only.             2 - OLI_MSGSEVERITY_SEVERE  - This message is severe and cannot be              overridden.             3 - OLI_MSGSEVERITY_WARNING - Message is a warning.             4 - OLI_MSGSEVERITY_OVERIDABLE  - The message is overridable by a clerk.             5 - OLI_MSGSEVERITY_OVERRIDDEN  - Message Overridden.          ",
+          "type": "number",
+          "enum": [
+            1,2,3,4,5
+          ]
+        }
+      }
+    }
+  }
